@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vasavi Annapurna – Grand Family Restaurant</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #C9922A;
+    --gold-light: #F0C97A;
+    --gold-dark: #8B6010;
+    --deep: #1A0F00;
+    --deep2: #2E1A00;
+    --cream: #FDF6E8;
+    --cream2: #F5EDD4;
+    --text: #2E1A00;
+    --text-muted: #7A5C2E;
+    --white: #FFFFFF;
+    --red: #9B1C1C;
+    --green: #1A5C2E;
+    --section-pad: 80px 20px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(26,15,0,0.97);
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 68px;
+    border-bottom: 1px solid rgba(201,146,42,0.3);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 0.5px;
+  }
+  .nav-logo span { color: var(--white); font-weight: 400; font-style: italic; font-size: 0.85rem; display: block; letter-spacing: 2px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: rgba(255,255,255,0.75);
+    font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase;
+    font-weight: 700; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--gold-light); border-radius: 2px; transition: all 0.3s; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    background:
+      linear-gradient(to bottom, rgba(26,15,0,0.7) 0%, rgba(26,15,0,0.4) 50%, rgba(26,15,0,0.85) 100%),
+      url('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=1600&q=80') center/cover no-repeat;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 100px 20px 60px;
+    position: relative;
+  }
+  .hero-badge {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase;
+    padding: 6px 20px; border-radius: 2px; margin-bottom: 24px;
+    font-weight: 700;
+  }
+  #hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 700; color: var(--white);
+    line-height: 1.1; margin-bottom: 8px;
+  }
+  #hero h1 em { color: var(--gold-light); font-style: italic; }
+  #hero .tagline {
+    font-size: 1rem; color: rgba(255,255,255,0.7);
+    letter-spacing: 3px; text-transform: uppercase;
+    font-weight: 300; margin-bottom: 40px; margin-top: 12px;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .btn-gold {
+    background: var(--gold); color: var(--deep);
+    padding: 14px 36px; border: none; border-radius: 2px;
+    font-family: 'Lato', sans-serif; font-weight: 700;
+    font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase;
+    cursor: pointer; text-decoration: none; transition: background 0.2s;
+  }
+  .btn-gold:hover { background: var(--gold-light); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    padding: 14px 36px; border: 1px solid rgba(255,255,255,0.5); border-radius: 2px;
+    font-family: 'Lato', sans-serif; font-weight: 700;
+    font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase;
+    cursor: pointer; text-decoration: none; transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--gold-light); color: var(--gold-light); }
+  .hero-scroll {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.4); font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+  }
+  .hero-scroll::after {
+    content: ''; width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex; align-items: center; gap: 16px;
+    justify-content: center; padding: 20px 0;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; max-width: 120px; height: 1px; background: var(--gold);
+    opacity: 0.4;
+  }
+  .divider-icon { color: var(--gold); font-size: 1.2rem; }
+
+  /* ── SECTION COMMON ── */
+  section { padding: var(--section-pad); }
+  .section-label {
+    text-align: center; color: var(--gold);
+    font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase;
+    font-weight: 700; margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 700; text-align: center;
+    color: var(--deep); margin-bottom: 48px; line-height: 1.2;
+  }
+  .section-title em { color: var(--gold); font-style: italic; }
+
+  /* ── ABOUT / TRUST ── */
+  #about { background: var(--deep); }
+  .about-grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+  }
+  .about-img-wrap {
+    position: relative;
+  }
+  .about-img-wrap img {
+    width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 2px;
+    filter: sepia(20%) contrast(1.05);
+  }
+  .about-img-badge {
+    position: absolute; bottom: -20px; right: -20px;
+    background: var(--gold); color: var(--deep);
+    padding: 20px 24px; text-align: center;
+    font-family: 'Playfair Display', serif;
+  }
+  .about-img-badge .num { font-size: 2.2rem; font-weight: 700; line-height: 1; }
+  .about-img-badge .label { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+  .about-text .section-label { text-align: left; }
+  .about-text .section-title { text-align: left; margin-bottom: 20px; }
+  .about-text .section-title { color: var(--white); }
+  .about-text p {
+    color: rgba(255,255,255,0.65); line-height: 1.8; font-size: 0.95rem; margin-bottom: 16px;
+  }
+  .trust-points { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+  .trust-point {
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .trust-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--gold);
+    margin-top: 6px; flex-shrink: 0;
+  }
+  .trust-point p { color: rgba(255,255,255,0.75); font-size: 0.85rem; line-height: 1.5; }
+  .trust-point strong { color: var(--gold-light); display: block; font-size: 0.9rem; margin-bottom: 2px; }
+
+  /* ── OWNER MESSAGE ── */
+  #owner { background: var(--cream2); }
+  .owner-card {
+    max-width: 800px; margin: 0 auto;
+    background: var(--white);
+    border-top: 4px solid var(--gold);
+    padding: 48px 56px;
+    box-shadow: 0 4px 40px rgba(201,146,42,0.08);
+    position: relative;
+  }
+  .owner-card::before {
+    content: '\201C';
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem; color: var(--gold-light);
+    opacity: 0.3; position: absolute; top: 0; left: 32px;
+    line-height: 1;
+  }
+  .owner-card blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-style: italic;
+    color: var(--deep2); line-height: 1.85;
+    margin-bottom: 28px; position: relative; z-index: 1;
+  }
+  .owner-sig { display: flex; align-items: center; gap: 16px; }
+  .owner-avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--gold); display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-weight: 700;
+    color: var(--deep); font-size: 1.1rem;
+  }
+  .owner-name { font-weight: 700; color: var(--deep); font-size: 0.95rem; }
+  .owner-title { color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+
+  /* ── STATS ── */
+  #stats {
+    background: var(--gold);
+    padding: 48px 20px;
+  }
+  .stats-grid {
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  }
+  .stat-item {
+    text-align: center; padding: 24px 16px;
+    border-right: 1px solid rgba(26,15,0,0.2);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem; font-weight: 700; color: var(--deep);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--deep2); margin-top: 6px; font-weight: 700;
+  }
+
+  /* ── MENU ── */
+  #menu { background: var(--cream); }
+  .menu-nav {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    margin-bottom: 48px;
+  }
+  .menu-tab {
+    padding: 9px 22px; border: 1px solid var(--gold);
+    background: transparent; color: var(--gold-dark);
+    font-family: 'Lato', sans-serif; font-weight: 700;
+    font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase;
+    cursor: pointer; border-radius: 2px; transition: all 0.2s;
+  }
+  .menu-tab:hover, .menu-tab.active {
+    background: var(--gold); color: var(--deep);
+  }
+  .menu-panel { display: none; }
+  .menu-panel.active { display: block; }
+
+  .menu-category { margin-bottom: 48px; }
+  .menu-category-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 600; color: var(--deep2);
+    border-bottom: 1px solid rgba(201,146,42,0.3);
+    padding-bottom: 10px; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .menu-category-title::before {
+    content: ''; width: 4px; height: 20px; background: var(--gold); border-radius: 2px;
+  }
+  .menu-badge {
+    font-size: 0.65rem; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 2px; font-weight: 700; font-family: 'Lato', sans-serif;
+  }
+  .badge-veg { background: #dcfce7; color: #166534; }
+  .badge-nonveg { background: #fee2e2; color: #991b1b; }
+  .badge-egg { background: #fef9c3; color: #92400e; }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .menu-item {
+    background: var(--white); border: 1px solid rgba(201,146,42,0.15);
+    border-radius: 2px; padding: 16px 18px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .menu-item:hover {
+    border-color: var(--gold); box-shadow: 0 2px 12px rgba(201,146,42,0.1);
+  }
+  .item-name { font-weight: 700; font-size: 0.9rem; color: var(--deep2); margin-bottom: 4px; }
+  .item-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+  .item-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem; font-weight: 600; color: var(--gold-dark);
+    white-space: nowrap; margin-left: 12px;
+  }
+
+  /* Thali special card */
+  .thali-card {
+    background: var(--white); border: 1px solid rgba(201,146,42,0.2);
+    border-radius: 2px; padding: 20px 22px;
+    border-left: 4px solid var(--gold);
+    transition: box-shadow 0.2s;
+  }
+  .thali-card:hover { box-shadow: 0 4px 20px rgba(201,146,42,0.12); }
+  .thali-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .thali-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: var(--deep2); }
+  .thali-price { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--gold-dark); }
+  .thali-includes {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .thali-tag {
+    background: var(--cream2); color: var(--text-muted);
+    font-size: 0.72rem; padding: 3px 9px; border-radius: 20px;
+  }
+  .thali-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px;
+  }
+
+  /* mandi half/full */
+  .mandi-item {
+    background: var(--white); border: 1px solid rgba(201,146,42,0.15);
+    border-radius: 2px; padding: 16px 18px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .mandi-name { font-weight: 700; font-size: 0.9rem; color: var(--deep2); }
+  .mandi-prices { display: flex; gap: 16px; }
+  .mandi-price-item { text-align: center; }
+  .mandi-price-item .lbl { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+  .mandi-price-item .amt { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--gold-dark); font-size: 1rem; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--deep); }
+  #contact .section-title { color: var(--white); }
+  .contact-grid {
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+  }
+  .contact-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,146,42,0.2);
+    border-radius: 2px; padding: 32px;
+  }
+  .contact-card h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold-light); font-size: 1.1rem; margin-bottom: 20px;
+  }
+  .contact-row {
+    display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px;
+  }
+  .contact-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(201,146,42,0.15); border: 1px solid rgba(201,146,42,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 1rem; flex-shrink: 0;
+  }
+  .contact-detail .lbl { color: var(--gold-light); font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; margin-bottom: 3px; }
+  .contact-detail .val { color: rgba(255,255,255,0.75); font-size: 0.9rem; line-height: 1.5; }
+  .hours-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .hours-row:last-child { border-bottom: none; }
+  .hours-row .day { color: rgba(255,255,255,0.55); font-size: 0.85rem; }
+  .hours-row .time { color: var(--gold-light); font-size: 0.85rem; font-weight: 700; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0D0700; color: rgba(255,255,255,0.35);
+    text-align: center; padding: 28px 20px;
+    font-size: 0.8rem; letter-spacing: 0.5px;
+    border-top: 1px solid rgba(201,146,42,0.15);
+  }
+  footer span { color: var(--gold); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; flex-direction: column; gap: 0; position: absolute; top: 68px; left: 0; right: 0; background: rgba(26,15,0,0.98); }
+    .nav-links.open { display: flex; }
+    .nav-links li a { display: block; padding: 14px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .hamburger { display: flex; }
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .about-img-wrap { display: none; }
+    .stats-grid { grid-template-columns: repeat(2,1fr); }
+    .stat-item:nth-child(2) { border-right: none; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .owner-card { padding: 32px 24px; }
+    .trust-points { grid-template-columns: 1fr; }
+  }
+
+  /* Fade-in animation */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s, transform 0.7s; }
+  .fade-in.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">
+    Vasavi Annapurna
+    <span>Grand Family Restaurant</span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#owner">Message</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-badge">Est. in Rajampet, Andhra Pradesh</div>
+  <h1><em>Vasavi</em><br>Annapurna</h1>
+  <p class="tagline">Grand Family Restaurant</p>
+  <div class="hero-btns">
+    <a href="#menu" class="btn-gold">Explore Menu</a>
+    <a href="#contact" class="btn-outline">Visit Us</a>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- ABOUT / TRUST -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img-wrap fade-in">
+      <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80" alt="Restaurant interior">
+      <div class="about-img-badge">
+        <div class="num">100%</div>
+        <div class="label">Quality Promise</div>
+      </div>
+    </div>
+    <div class="about-text fade-in">
+      <div class="section-label">Our Story & Trust</div>
+      <h2 class="section-title">Where Every Meal Is <em>Crafted with Love</em></h2>
+      <p>At Vasavi Annapurna, we believe food is more than nourishment — it is tradition, warmth, and belonging. Rooted in the heart of Rajampet, our kitchen brings together the rich culinary heritage of Andhra Pradesh with flavors that span North Indian, South Indian, and Continental cuisine.</p>
+      <p>Every dish that leaves our kitchen passes through the hands of experienced chefs who treat each plate as a promise — a promise of freshness, flavor, and care. We source the finest ingredients locally, ensuring every bite carries the essence of quality and authenticity.</p>
+      <div class="trust-points">
+        <div class="trust-point"><div class="trust-dot"></div><p><strong>Fresh Ingredients Daily</strong>Procured fresh every morning, no compromises</p></div>
+        <div class="trust-point"><div class="trust-dot"></div><p><strong>Hygienic Kitchen</strong>Maintained to the highest standards of cleanliness</p></div>
+        <div class="trust-point"><div class="trust-dot"></div><p><strong>Authentic Recipes</strong>Time-honored recipes passed down through generations</p></div>
+        <div class="trust-point"><div class="trust-dot"></div><p><strong>Family-Friendly</strong>A welcoming space for families of all sizes</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-num">150+</div>
+      <div class="stat-label">Menu Items</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Fresh Daily</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Happy Families</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Flavors</div>
+    </div>
+  </div>
+</div>
+
+<!-- OWNER MESSAGE -->
+<section id="owner">
+  <div class="section-label">A Word From The Founder</div>
+  <div class="section-title">Managing Director's <em>Message</em></div>
+  <div class="owner-card fade-in">
+    <blockquote>
+      "At Vasavi Annapurna, quality is not a policy — it is a habit we practice every single day. From the moment our kitchen fires up in the morning to the last meal we serve at night, every ingredient is chosen with care, every dish prepared with pride. We believe that trust is built one plate at a time, and it is that trust that has made our guests our family. When you dine with us, you are not just a customer — you are a guest in our home. I personally ensure that the values of purity, hospitality, and excellence are upheld in every corner of our restaurant. Come hungry, leave happy — that is our heartfelt commitment to you."
+    </blockquote>
+    <div class="owner-sig">
+      <div class="owner-avatar">LN</div>
+      <div>
+        <div class="owner-name">Likhit Narasimha Ch</div>
+        <div class="owner-title">Managing Director, Vasavi Annapurna</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="section-label">Our Grand Menu</div>
+  <div class="section-title">From Our Kitchen <em>to Your Table</em></div>
+
+  <div class="menu-nav">
+    <button class="menu-tab active" onclick="switchTab('thali')">Thali & Meals</button>
+    <button class="menu-tab" onclick="switchTab('starters')">Starters</button>
+    <button class="menu-tab" onclick="switchTab('curries')">Curries</button>
+    <button class="menu-tab" onclick="switchTab('rice')">Rice & Noodles</button>
+    <button class="menu-tab" onclick="switchTab('biryani')">Biryani & Mandi</button>
+    <button class="menu-tab" onclick="switchTab('desserts')">Desserts & Drinks</button>
+  </div>
+
+  <!-- TAB: THALI & MEALS -->
+  <div class="menu-panel active" id="tab-thali">
+    <div class="menu-category">
+      <div class="menu-category-title">Veg Thali <span class="menu-badge badge-veg">Veg</span></div>
+      <div class="thali-grid">
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Mini Veg Thali</div><div class="thali-price">₹149</div></div><div class="thali-includes"><span class="thali-tag">White Rice</span><span class="thali-tag">Dal</span><span class="thali-tag">Sambar</span><span class="thali-tag">Rasam</span><span class="thali-tag">Veg Curry</span><span class="thali-tag">Fry Item</span><span class="thali-tag">Curd</span><span class="thali-tag">Papad</span><span class="thali-tag">Pickle</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Special Veg Thali</div><div class="thali-price">₹229</div></div><div class="thali-includes"><span class="thali-tag">White Rice</span><span class="thali-tag">Jeera Rice</span><span class="thali-tag">Dal Fry</span><span class="thali-tag">Sambar</span><span class="thali-tag">Rasam</span><span class="thali-tag">Paneer Curry</span><span class="thali-tag">Veg Curry</span><span class="thali-tag">Fry Item</span><span class="thali-tag">Sweet</span><span class="thali-tag">Curd</span><span class="thali-tag">Papad</span><span class="thali-tag">Pickle</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Paneer Special Thali</div><div class="thali-price">₹279</div></div><div class="thali-includes"><span class="thali-tag">White Rice</span><span class="thali-tag">Paneer Butter Masala</span><span class="thali-tag">Dal Tadka</span><span class="thali-tag">Veg Curry</span><span class="thali-tag">Roti (2)</span><span class="thali-tag">Sweet</span><span class="thali-tag">Curd Rice</span><span class="thali-tag">Papad</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">South Indian Veg Thali</div><div class="thali-price">₹199</div></div><div class="thali-includes"><span class="thali-tag">Rice</span><span class="thali-tag">Sambar</span><span class="thali-tag">Rasam</span><span class="thali-tag">Poriyal</span><span class="thali-tag">Fry Curry</span><span class="thali-tag">Pickle</span><span class="thali-tag">Curd</span><span class="thali-tag">Sweet</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Deluxe Veg Thali</div><div class="thali-price">₹299</div></div><div class="thali-includes"><span class="thali-tag">White Rice</span><span class="thali-tag">Fried Rice</span><span class="thali-tag">Paneer Curry</span><span class="thali-tag">Mushroom Curry</span><span class="thali-tag">Dal Tadka</span><span class="thali-tag">Roti (2)</span><span class="thali-tag">Sweet</span><span class="thali-tag">Ice Cream</span><span class="thali-tag">Curd</span><span class="thali-tag">Papad</span></div></div>
+      </div>
+    </div>
+
+    <div class="menu-category">
+      <div class="menu-category-title">Veg Meals <span class="menu-badge badge-veg">Veg</span></div>
+      <div class="thali-grid">
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Normal Veg Meal</div><div class="thali-price">₹120</div></div><div class="thali-includes"><span class="thali-tag">White Rice</span><span class="thali-tag">Dal</span><span class="thali-tag">Sambar</span><span class="thali-tag">Rasam</span><span class="thali-tag">Veg Curry</span><span class="thali-tag">Fry Curry</span><span class="thali-tag">Curd</span><span class="thali-tag">Papad</span><span class="thali-tag">Pickle</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Special Veg Meal</div><div class="thali-price">₹180</div></div><div class="thali-includes"><span class="thali-tag">White Rice</span><span class="thali-tag">Jeera Rice</span><span class="thali-tag">Paneer Curry</span><span class="thali-tag">Dal Fry</span><span class="thali-tag">Sambar</span><span class="thali-tag">Rasam</span><span class="thali-tag">Fry Item</span><span class="thali-tag">Curd</span><span class="thali-tag">Sweet</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Unlimited Veg Meal</div><div class="thali-price">₹249</div></div><div class="thali-includes"><span class="thali-tag">Unlimited Rice</span><span class="thali-tag">Dal</span><span class="thali-tag">Sambar</span><span class="thali-tag">Rasam</span><span class="thali-tag">2 Veg Curries</span><span class="thali-tag">Fry Item</span><span class="thali-tag">Sweet</span><span class="thali-tag">Curd</span><span class="thali-tag">Papad</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Andhra Veg Meal</div><div class="thali-price">₹199</div></div><div class="thali-includes"><span class="thali-tag">Rice</span><span class="thali-tag">Pappu</span><span class="thali-tag">Sambar</span><span class="thali-tag">Rasam</span><span class="thali-tag">Gongura Pachadi</span><span class="thali-tag">Veg Fry</span><span class="thali-tag">Curry</span><span class="thali-tag">Curd</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">North Indian Veg Meal</div><div class="thali-price">₹229</div></div><div class="thali-includes"><span class="thali-tag">Jeera Rice</span><span class="thali-tag">Butter Naan</span><span class="thali-tag">Paneer Butter Masala</span><span class="thali-tag">Dal Tadka</span><span class="thali-tag">Veg Curry</span><span class="thali-tag">Sweet</span><span class="thali-tag">Curd</span></div></div>
+      </div>
+    </div>
+
+    <div class="menu-category">
+      <div class="menu-category-title">Non-Veg Thali <span class="menu-badge badge-nonveg">Non-Veg</span></div>
+      <div class="thali-grid">
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Chicken Thali</div><div class="thali-price">₹299</div></div><div class="thali-includes"><span class="thali-tag">White Rice</span><span class="thali-tag">Chicken Curry</span><span class="thali-tag">Dal</span><span class="thali-tag">Veg Curry</span><span class="thali-tag">Fry Item</span><span class="thali-tag">Curd</span><span class="thali-tag">Papad</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Special Chicken Thali</div><div class="thali-price">₹349</div></div><div class="thali-includes"><span class="thali-tag">White Rice</span><span class="thali-tag">Chicken Curry</span><span class="thali-tag">Chicken Fry</span><span class="thali-tag">Dal Fry</span><span class="thali-tag">Veg Curry</span><span class="thali-tag">Sweet</span><span class="thali-tag">Curd</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Mutton Thali</div><div class="thali-price">₹399</div></div><div class="thali-includes"><span class="thali-tag">White Rice</span><span class="thali-tag">Mutton Curry</span><span class="thali-tag">Fry Item</span><span class="thali-tag">Dal</span><span class="thali-tag">Veg Curry</span><span class="thali-tag">Rasam</span><span class="thali-tag">Curd</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Egg Thali</div><div class="thali-price">₹199</div></div><div class="thali-includes"><span class="thali-tag">White Rice</span><span class="thali-tag">Egg Curry</span><span class="thali-tag">Egg Fry</span><span class="thali-tag">Dal</span><span class="thali-tag">Veg Curry</span><span class="thali-tag">Curd</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Fish Thali</div><div class="thali-price">₹349</div></div><div class="thali-includes"><span class="thali-tag">White Rice</span><span class="thali-tag">Fish Curry</span><span class="thali-tag">Fish Fry</span><span class="thali-tag">Dal</span><span class="thali-tag">Veg Curry</span><span class="thali-tag">Pickle</span><span class="thali-tag">Curd</span></div></div>
+      </div>
+    </div>
+
+    <div class="menu-category">
+      <div class="menu-category-title">Non-Veg Meals <span class="menu-badge badge-nonveg">Non-Veg</span></div>
+      <div class="thali-grid">
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Chicken Meal</div><div class="thali-price">₹220</div></div><div class="thali-includes"><span class="thali-tag">White Rice</span><span class="thali-tag">Chicken Curry</span><span class="thali-tag">Dal</span><span class="thali-tag">Veg Curry</span><span class="thali-tag">Rasam</span><span class="thali-tag">Curd</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Special Non-Veg Meal</div><div class="thali-price">₹320</div></div><div class="thali-includes"><span class="thali-tag">White Rice</span><span class="thali-tag">Chicken Fry</span><span class="thali-tag">Chicken Curry</span><span class="thali-tag">Dal Fry</span><span class="thali-tag">Veg Curry</span><span class="thali-tag">Sweet</span><span class="thali-tag">Curd</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Andhra Chicken Meal</div><div class="thali-price">₹299</div></div><div class="thali-includes"><span class="thali-tag">Rice</span><span class="thali-tag">Andhra Chicken Curry</span><span class="thali-tag">Gongura Pachadi</span><span class="thali-tag">Dal</span><span class="thali-tag">Veg Fry</span><span class="thali-tag">Rasam</span><span class="thali-tag">Curd</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Egg Meal</div><div class="thali-price">₹180</div></div><div class="thali-includes"><span class="thali-tag">Rice</span><span class="thali-tag">Egg Curry</span><span class="thali-tag">Egg Fry</span><span class="thali-tag">Dal</span><span class="thali-tag">Veg Curry</span><span class="thali-tag">Curd</span></div></div>
+        <div class="thali-card"><div class="thali-header"><div class="thali-name">Mutton Meal</div><div class="thali-price">₹420</div></div><div class="thali-includes"><span class="thali-tag">Rice</span><span class="thali-tag">Mutton Curry</span><span class="thali-tag">Fry Piece</span><span class="thali-tag">Dal</span><span class="thali-tag">Veg Curry</span><span class="thali-tag">Sweet</span><span class="thali-tag">Curd</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: STARTERS -->
+  <div class="menu-panel" id="tab-starters">
+    <div class="menu-category">
+      <div class="menu-category-title">Veg Starters <span class="menu-badge badge-veg">Veg</span></div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Batani Fry</div></div><div class="item-price">₹120</div></div>
+        <div class="menu-item"><div><div class="item-name">Batani Roast</div></div><div class="item-price">₹130</div></div>
+        <div class="menu-item"><div><div class="item-name">Chana Fry</div></div><div class="item-price">₹120</div></div>
+        <div class="menu-item"><div><div class="item-name">Chana Roast</div></div><div class="item-price">₹120</div></div>
+        <div class="menu-item"><div><div class="item-name">Gobi Manchuria</div></div><div class="item-price">₹150</div></div>
+        <div class="menu-item"><div><div class="item-name">Veg Manchuria</div></div><div class="item-price">₹150</div></div>
+        <div class="menu-item"><div><div class="item-name">Onion Pakodi</div></div><div class="item-price">₹150</div></div>
+        <div class="menu-item"><div><div class="item-name">Finger Chips</div></div><div class="item-price">₹130</div></div>
+        <div class="menu-item"><div><div class="item-name">Crispy Corn</div></div><div class="item-price">₹150</div></div>
+        <div class="menu-item"><div><div class="item-name">Chilli Baby Corn</div></div><div class="item-price">₹220</div></div>
+        <div class="menu-item"><div><div class="item-name">Mushroom 65</div></div><div class="item-price">₹220</div></div>
+        <div class="menu-item"><div><div class="item-name">Mushroom Fry</div></div><div class="item-price">₹220</div></div>
+        <div class="menu-item"><div><div class="item-name">Mushroom Chilli</div></div><div class="item-price">₹220</div></div>
+        <div class="menu-item"><div><div class="item-name">Mushroom Manchuria</div></div><div class="item-price">₹190</div></div>
+        <div class="menu-item"><div><div class="item-name">Pepper Mushroom</div></div><div class="item-price">₹220</div></div>
+        <div class="menu-item"><div><div class="item-name">Paneer Fry</div></div><div class="item-price">₹220</div></div>
+        <div class="menu-item"><div><div class="item-name">Paneer Chilli</div></div><div class="item-price">₹220</div></div>
+        <div class="menu-item"><div><div class="item-name">Paneer 65</div></div><div class="item-price">₹210</div></div>
+        <div class="menu-item"><div><div class="item-name">Paneer 555</div></div><div class="item-price">₹240</div></div>
+        <div class="menu-item"><div><div class="item-name">Paneer Manchuria</div></div><div class="item-price">₹210</div></div>
+        <div class="menu-item"><div><div class="item-name">Paneer Pakodi</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Chilli Paneer</div></div><div class="item-price">₹220</div></div>
+        <div class="menu-item"><div><div class="item-name">Kaju Fry</div></div><div class="item-price">₹220</div></div>
+        <div class="menu-item"><div><div class="item-name">Kaju Roast</div></div><div class="item-price">₹240</div></div>
+        <div class="menu-item"><div><div class="item-name">Kaju Paneer Fry</div></div><div class="item-price">₹240</div></div>
+        <div class="menu-item"><div><div class="item-name">Kaju Mushroom Fry</div></div><div class="item-price">₹240</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Egg Starters <span class="menu-badge badge-egg">Egg</span></div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Boiled Eggs</div></div><div class="item-price">₹70</div></div>
+        <div class="menu-item"><div><div class="item-name">Boil Egg Fry</div></div><div class="item-price">₹130</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Chilli</div></div><div class="item-price">₹140</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg 65</div></div><div class="item-price">₹150</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Manchuria</div></div><div class="item-price">₹130</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Roast</div></div><div class="item-price">₹130</div></div>
+        <div class="menu-item"><div><div class="item-name">Omelette</div></div><div class="item-price">₹60</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Non-Veg Starters <span class="menu-badge badge-nonveg">Non-Veg</span></div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Chicken Fry (Bone)</div></div><div class="item-price">₹200</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Fry (Boneless)</div></div><div class="item-price">₹250</div></div>
+        <div class="menu-item"><div><div class="item-name">Chilli Chicken</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken 65</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken 555</div></div><div class="item-price">₹240</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Majestic</div></div><div class="item-price">₹240</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Manchuria</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Lemon Chicken</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Pepper Chicken</div></div><div class="item-price">₹250</div></div>
+        <div class="menu-item"><div><div class="item-name">Dragon Chicken</div></div><div class="item-price">₹240</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken 85</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Bols</div></div><div class="item-price">₹300</div></div>
+        <div class="menu-item"><div><div class="item-name">RR Chicken</div></div><div class="item-price">₹250</div></div>
+        <div class="menu-item"><div><div class="item-name">Rambo Chicken</div></div><div class="item-price">₹250</div></div>
+        <div class="menu-item"><div><div class="item-name">Boneless Fry</div></div><div class="item-price">₹220</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Lollipop Fry (4 pcs)</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Wings Fry</div></div><div class="item-price">₹260</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Drumstick</div></div><div class="item-price">₹240</div></div>
+        <div class="menu-item"><div><div class="item-name">B.L Fish Roast</div></div><div class="item-price">₹200</div></div>
+        <div class="menu-item"><div><div class="item-name">Apollo Fish</div></div><div class="item-price">₹250</div></div>
+        <div class="menu-item"><div><div class="item-name">Prawns 65</div></div><div class="item-price">₹240</div></div>
+        <div class="menu-item"><div><div class="item-name">Chilli Prawns</div></div><div class="item-price">₹260</div></div>
+        <div class="menu-item"><div><div class="item-name">Mutton Fry</div></div><div class="item-price">₹320</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Tikka</div></div><div class="item-price">₹240</div></div>
+        <div class="menu-item"><div><div class="item-name">Tandoori Chicken (Half)</div></div><div class="item-price">₹240</div></div>
+        <div class="menu-item"><div><div class="item-name">Tandoori Chicken (Full)</div></div><div class="item-price">₹480</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Roti & Tandoor</div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Fulka / Roti</div></div><div class="item-price">₹10</div></div>
+        <div class="menu-item"><div><div class="item-name">Butter Fulka</div></div><div class="item-price">₹12</div></div>
+        <div class="menu-item"><div><div class="item-name">Butter Naan</div></div><div class="item-price">₹40</div></div>
+        <div class="menu-item"><div><div class="item-name">Roti</div></div><div class="item-price">₹30</div></div>
+        <div class="menu-item"><div><div class="item-name">Butter Roti</div></div><div class="item-price">₹40</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Snacks & Rolls</div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Veg Momos</div></div><div class="item-price">₹40</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Momos</div></div><div class="item-price">₹50</div></div>
+        <div class="menu-item"><div><div class="item-name">French Fries</div></div><div class="item-price">₹50</div></div>
+        <div class="menu-item"><div><div class="item-name">Veg Roll</div></div><div class="item-price">₹40</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Roll</div></div><div class="item-price">₹50</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Roll</div></div><div class="item-price">₹70</div></div>
+        <div class="menu-item"><div><div class="item-name">Veg Manchuria Roll</div></div><div class="item-price">₹60</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Manchuria Roll</div></div><div class="item-price">₹70</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: CURRIES -->
+  <div class="menu-panel" id="tab-curries">
+    <div class="menu-category">
+      <div class="menu-category-title">Veg Curries <span class="menu-badge badge-veg">Veg</span></div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Dal Fry</div></div><div class="item-price">₹90</div></div>
+        <div class="menu-item"><div><div class="item-name">Dal Tadka</div></div><div class="item-price">₹110</div></div>
+        <div class="menu-item"><div><div class="item-name">Palak</div></div><div class="item-price">₹130</div></div>
+        <div class="menu-item"><div><div class="item-name">Tomato Curry</div></div><div class="item-price">₹120</div></div>
+        <div class="menu-item"><div><div class="item-name">Veg Moghlay</div></div><div class="item-price">₹150</div></div>
+        <div class="menu-item"><div><div class="item-name">Veg Kolhapuri</div></div><div class="item-price">₹150</div></div>
+        <div class="menu-item"><div><div class="item-name">Veg Mix Curry</div></div><div class="item-price">₹190</div></div>
+        <div class="menu-item"><div><div class="item-name">Chana Masala</div></div><div class="item-price">₹110</div></div>
+        <div class="menu-item"><div><div class="item-name">Capsicum Masala Curry</div></div><div class="item-price">₹170</div></div>
+        <div class="menu-item"><div><div class="item-name">Green Peas Curry</div></div><div class="item-price">₹110</div></div>
+        <div class="menu-item"><div><div class="item-name">Jaipur Curry</div></div><div class="item-price">₹150</div></div>
+        <div class="menu-item"><div><div class="item-name">Palak Paneer</div></div><div class="item-price">₹170</div></div>
+        <div class="menu-item"><div><div class="item-name">Paneer Butter Masala</div></div><div class="item-price">₹200</div></div>
+        <div class="menu-item"><div><div class="item-name">Shahi Paneer</div></div><div class="item-price">₹220</div></div>
+        <div class="menu-item"><div><div class="item-name">Kadai Paneer</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Mathi Chaman</div></div><div class="item-price">₹200</div></div>
+        <div class="menu-item"><div><div class="item-name">Mushroom Curry</div></div><div class="item-price">₹190</div></div>
+        <div class="menu-item"><div><div class="item-name">Kadai Mushroom</div></div><div class="item-price">₹180</div></div>
+        <div class="menu-item"><div><div class="item-name">Kaju Mushroom</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Kaju Curry</div></div><div class="item-price">₹220</div></div>
+        <div class="menu-item"><div><div class="item-name">Kaju Tomato</div></div><div class="item-price">₹210</div></div>
+        <div class="menu-item"><div><div class="item-name">Kaju Matar</div></div><div class="item-price">₹200</div></div>
+        <div class="menu-item"><div><div class="item-name">Kaju Paneer</div></div><div class="item-price">₹230</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Egg Curries <span class="menu-badge badge-egg">Egg</span></div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Egg Curry</div></div><div class="item-price">₹140</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Keema</div></div><div class="item-price">₹140</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Dal</div></div><div class="item-price">₹120</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Tomato</div></div><div class="item-price">₹130</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Palak</div></div><div class="item-price">₹120</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Bujji / Burji</div></div><div class="item-price">₹120</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Mix Curry</div></div><div class="item-price">₹150</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Masala</div></div><div class="item-price">₹120</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Chicken Curries <span class="menu-badge badge-nonveg">Non-Veg</span></div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Bone Chicken Curry</div></div><div class="item-price">₹190</div></div>
+        <div class="menu-item"><div><div class="item-name">Boneless Chicken Curry</div></div><div class="item-price">₹210</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Moghlay</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Punjabi Chicken Curry</div></div><div class="item-price">₹220</div></div>
+        <div class="menu-item"><div><div class="item-name">Rambha Chicken</div></div><div class="item-price">₹250</div></div>
+        <div class="menu-item"><div><div class="item-name">Nellore Chicken</div></div><div class="item-price">₹320</div></div>
+        <div class="menu-item"><div><div class="item-name">Kaju Chicken</div></div><div class="item-price">₹260</div></div>
+        <div class="menu-item"><div><div class="item-name">Maharani Chicken</div></div><div class="item-price">₹270</div></div>
+        <div class="menu-item"><div><div class="item-name">Afghani Chicken</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Kadai Chicken Curry</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Andhra Chicken Curry</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Butter Chicken Curry</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Guntur Special Chicken</div></div><div class="item-price">₹350</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Kolhapuri</div></div><div class="item-price">₹250</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Kheema Curry</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Gongura Chicken Curry</div></div><div class="item-price">₹220</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Murg Masala</div></div><div class="item-price">₹260</div></div>
+        <div class="menu-item"><div><div class="item-name">Kashmiri Chicken Curry</div></div><div class="item-price">₹250</div></div>
+        <div class="menu-item"><div><div class="item-name">Mathi Chicken</div></div><div class="item-price">₹250</div></div>
+        <div class="menu-item"><div><div class="item-name">Lollipop Curry</div></div><div class="item-price">₹260</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Prawns & Mutton Curries <span class="menu-badge badge-nonveg">Non-Veg</span></div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Prawns Curry</div></div><div class="item-price">₹300</div></div>
+        <div class="menu-item"><div><div class="item-name">Kadai Prawns</div></div><div class="item-price">₹320</div></div>
+        <div class="menu-item"><div><div class="item-name">Andhra Prawns Curry</div></div><div class="item-price">₹330</div></div>
+        <div class="menu-item"><div><div class="item-name">Prawns Capsicum Masala</div></div><div class="item-price">₹300</div></div>
+        <div class="menu-item"><div><div class="item-name">Andhra Mutton Curry</div></div><div class="item-price">₹350</div></div>
+        <div class="menu-item"><div><div class="item-name">Kadai Mutton Curry</div></div><div class="item-price">₹360</div></div>
+        <div class="menu-item"><div><div class="item-name">Gongura Mutton Curry</div></div><div class="item-price">₹370</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: RICE & NOODLES -->
+  <div class="menu-panel" id="tab-rice">
+    <div class="menu-category">
+      <div class="menu-category-title">Veg Fried Rice & Noodles <span class="menu-badge badge-veg">Veg</span></div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Plain White Rice</div></div><div class="item-price">₹50</div></div>
+        <div class="menu-item"><div><div class="item-name">Veg Fried Rice</div></div><div class="item-price">₹120</div></div>
+        <div class="menu-item"><div><div class="item-name">Jeera Rice</div></div><div class="item-price">₹110</div></div>
+        <div class="menu-item"><div><div class="item-name">Schezwan Veg Fried Rice</div></div><div class="item-price">₹140</div></div>
+        <div class="menu-item"><div><div class="item-name">Paneer Fried Rice</div></div><div class="item-price">₹170</div></div>
+        <div class="menu-item"><div><div class="item-name">Mushroom Fried Rice</div></div><div class="item-price">₹180</div></div>
+        <div class="menu-item"><div><div class="item-name">Kaju Fried Rice</div></div><div class="item-price">₹200</div></div>
+        <div class="menu-item"><div><div class="item-name">Manchuria Fried Rice</div></div><div class="item-price">₹170</div></div>
+        <div class="menu-item"><div><div class="item-name">Tomato Fried Rice</div></div><div class="item-price">₹90</div></div>
+        <div class="menu-item"><div><div class="item-name">Curd Rice</div></div><div class="item-price">₹100</div></div>
+        <div class="menu-item"><div><div class="item-name">Kashmiri Curd Rice</div></div><div class="item-price">₹150</div></div>
+        <div class="menu-item"><div><div class="item-name">Veg Noodles</div></div><div class="item-price">₹100</div></div>
+        <div class="menu-item"><div><div class="item-name">Schezwan Veg Noodles</div></div><div class="item-price">₹140</div></div>
+        <div class="menu-item"><div><div class="item-name">Veg Manchuria Noodles</div></div><div class="item-price">₹130</div></div>
+        <div class="menu-item"><div><div class="item-name">Paneer Noodles</div></div><div class="item-price">₹170</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Non-Veg Fried Rice & Noodles <span class="menu-badge badge-nonveg">Non-Veg</span></div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Egg Fried Rice</div></div><div class="item-price">₹130</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Schezwan Fried Rice</div></div><div class="item-price">₹150</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Chilli Fried Rice</div></div><div class="item-price">₹160</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Fried Rice</div></div><div class="item-price">₹170</div></div>
+        <div class="menu-item"><div><div class="item-name">Schezwan Chicken Fried Rice</div></div><div class="item-price">₹180</div></div>
+        <div class="menu-item"><div><div class="item-name">Special Chicken Fried Rice</div></div><div class="item-price">₹190</div></div>
+        <div class="menu-item"><div><div class="item-name">Mutton Fried Rice</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Prawns Fried Rice</div></div><div class="item-price">₹210</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Noodles</div></div><div class="item-price">₹120</div></div>
+        <div class="menu-item"><div><div class="item-name">Egg Schezwan Noodles</div></div><div class="item-price">₹140</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Noodles</div></div><div class="item-price">₹140</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Schezwan Noodles</div></div><div class="item-price">₹160</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Hakka Noodles</div></div><div class="item-price">₹170</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: BIRYANI & MANDI -->
+  <div class="menu-panel" id="tab-biryani">
+    <div class="menu-category">
+      <div class="menu-category-title">Veg Biryani <span class="menu-badge badge-veg">Veg</span></div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Veg Biryani</div></div><div class="item-price">₹190</div></div>
+        <div class="menu-item"><div><div class="item-name">Paneer Biryani</div></div><div class="item-price">₹200</div></div>
+        <div class="menu-item"><div><div class="item-name">Mushroom Biryani</div></div><div class="item-price">₹200</div></div>
+        <div class="menu-item"><div><div class="item-name">Kaju Biryani</div></div><div class="item-price">₹210</div></div>
+        <div class="menu-item"><div><div class="item-name">Kaju Paneer Biryani</div></div><div class="item-price">₹240</div></div>
+        <div class="menu-item"><div><div class="item-name">Kaju Mushroom Biryani</div></div><div class="item-price">₹240</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Non-Veg Biryani <span class="menu-badge badge-nonveg">Non-Veg</span></div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Egg Biryani</div></div><div class="item-price">₹140</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Dum Biryani</div></div><div class="item-price">₹150</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Fry Piece Biryani</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Boneless Biryani</div></div><div class="item-price">₹250</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Lollipop Biryani</div></div><div class="item-price">₹240</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Wings Biryani</div></div><div class="item-price">₹230</div></div>
+        <div class="menu-item"><div><div class="item-name">Moghalai Chicken Biryani</div></div><div class="item-price">₹250</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Kheema Biryani</div></div><div class="item-price">₹260</div></div>
+        <div class="menu-item"><div><div class="item-name">Rambo Chicken Biryani</div></div><div class="item-price">₹270</div></div>
+        <div class="menu-item"><div><div class="item-name">Mutton Fry Piece Biryani</div></div><div class="item-price">₹370</div></div>
+        <div class="menu-item"><div><div class="item-name">Mutton Curry Biryani</div></div><div class="item-price">₹400</div></div>
+        <div class="menu-item"><div><div class="item-name">Fish Biryani</div></div><div class="item-price">₹300</div></div>
+        <div class="menu-item"><div><div class="item-name">Prawns Biryani</div></div><div class="item-price">₹300</div></div>
+        <div class="menu-item"><div><div class="item-name">Mixed Non-Veg Biryani</div></div><div class="item-price">₹370</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Tandoori Biryani</div></div><div class="item-price">₹340</div></div>
+        <div class="menu-item"><div><div class="item-name">Chicken Tikka Biryani</div></div><div class="item-price">₹240</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Mandi (Half / Full)</div>
+      <div class="menu-grid">
+        <div class="mandi-item"><div class="mandi-name">Paneer Mandi</div><div class="mandi-prices"><div class="mandi-price-item"><div class="lbl">Half</div><div class="amt">₹370</div></div><div class="mandi-price-item"><div class="lbl">Full</div><div class="amt">₹730</div></div></div></div>
+        <div class="mandi-item"><div class="mandi-name">Mushroom Mandi</div><div class="mandi-prices"><div class="mandi-price-item"><div class="lbl">Half</div><div class="amt">₹440</div></div><div class="mandi-price-item"><div class="lbl">Full</div><div class="amt">₹790</div></div></div></div>
+        <div class="mandi-item"><div class="mandi-name">Chicken Wings Mandi</div><div class="mandi-prices"><div class="mandi-price-item"><div class="lbl">Half</div><div class="amt">₹440</div></div><div class="mandi-price-item"><div class="lbl">Full</div><div class="amt">₹790</div></div></div></div>
+        <div class="mandi-item"><div class="mandi-name">Chicken Lollipop Mandi</div><div class="mandi-prices"><div class="mandi-price-item"><div class="lbl">Half</div><div class="amt">₹440</div></div><div class="mandi-price-item"><div class="lbl">Full</div><div class="amt">₹790</div></div></div></div>
+        <div class="mandi-item"><div class="mandi-name">Chicken Rambo Mandi</div><div class="mandi-prices"><div class="mandi-price-item"><div class="lbl">Half</div><div class="amt">₹450</div></div><div class="mandi-price-item"><div class="lbl">Full</div><div class="amt">₹800</div></div></div></div>
+        <div class="mandi-item"><div class="mandi-name">Chicken Tandoori Mandi</div><div class="mandi-prices"><div class="mandi-price-item"><div class="lbl">Half</div><div class="amt">₹540</div></div><div class="mandi-price-item"><div class="lbl">Full</div><div class="amt">₹880</div></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: DESSERTS & DRINKS -->
+  <div class="menu-panel" id="tab-desserts">
+    <div class="menu-category">
+      <div class="menu-category-title">Soups & Drinks</div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Chicken Soup</div></div><div class="item-price">₹30</div></div>
+        <div class="menu-item"><div><div class="item-name">Special Kheer</div></div><div class="item-price">₹50</div></div>
+        <div class="menu-item"><div><div class="item-name">Butter Milk</div></div><div class="item-price">₹25</div></div>
+        <div class="menu-item"><div><div class="item-name">Lassi</div></div><div class="item-price">₹35</div></div>
+        <div class="menu-item"><div><div class="item-name">Oreo Shake</div></div><div class="item-price">₹70</div></div>
+        <div class="menu-item"><div><div class="item-name">KitKat Shake</div></div><div class="item-price">₹70</div></div>
+        <div class="menu-item"><div><div class="item-name">Strawberry Shake</div></div><div class="item-price">₹60</div></div>
+        <div class="menu-item"><div><div class="item-name">Blueberry Shake</div></div><div class="item-price">₹60</div></div>
+        <div class="menu-item"><div><div class="item-name">Orange Shake</div></div><div class="item-price">₹60</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Waffles</div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Filling White</div></div><div class="item-price">₹70</div></div>
+        <div class="menu-item"><div><div class="item-name">Filling Milk</div></div><div class="item-price">₹70</div></div>
+        <div class="menu-item"><div><div class="item-name">Filling Dark</div></div><div class="item-price">₹80</div></div>
+        <div class="menu-item"><div><div class="item-name">Filling Nutella</div></div><div class="item-price">₹90</div></div>
+        <div class="menu-item"><div><div class="item-name">White + Milk</div></div><div class="item-price">₹90</div></div>
+        <div class="menu-item"><div><div class="item-name">Dark + White</div></div><div class="item-price">₹100</div></div>
+        <div class="menu-item"><div><div class="item-name">Dark + Milk</div></div><div class="item-price">₹100</div></div>
+        <div class="menu-item"><div><div class="item-name">Triple Chocolate</div></div><div class="item-price">₹120</div></div>
+        <div class="menu-item"><div><div class="item-name">Red Velvet White</div></div><div class="item-price">₹100</div></div>
+        <div class="menu-item"><div><div class="item-name">Red Velvet Nutella</div></div><div class="item-price">₹130</div></div>
+        <div class="menu-item"><div><div class="item-name">Red Velvet Nutella White</div></div><div class="item-price">₹150</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Cheesecakes</div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">New York Cheesecake</div></div><div class="item-price">₹99</div></div>
+        <div class="menu-item"><div><div class="item-name">Blueberry Cheesecake</div></div><div class="item-price">₹119</div></div>
+        <div class="menu-item"><div><div class="item-name">Chocolate Cheesecake</div></div><div class="item-price">₹129</div></div>
+        <div class="menu-item"><div><div class="item-name">Biscoff Cheesecake</div></div><div class="item-price">₹149</div></div>
+        <div class="menu-item"><div><div class="item-name">Triple Chocolate Cheesecake</div></div><div class="item-price">₹159</div></div>
+        <div class="menu-item"><div><div class="item-name">Pistachio Kunafa Cheesecake</div></div><div class="item-price">₹189</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Brownies & Chocolate Desserts</div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Dezato Signature Brownie</div></div><div class="item-price">₹149</div></div>
+        <div class="menu-item"><div><div class="item-name">Triple Chocolate Brownie</div></div><div class="item-price">₹89</div></div>
+        <div class="menu-item"><div><div class="item-name">Brownie with Vanilla Slab</div></div><div class="item-price">₹99</div></div>
+        <div class="menu-item"><div><div class="item-name">Brownie with Nutella Slab</div></div><div class="item-price">₹149</div></div>
+        <div class="menu-item"><div><div class="item-name">Macadamia Almond Brownie</div></div><div class="item-price">₹169</div></div>
+        <div class="menu-item"><div><div class="item-name">Triple Chocolate Cake</div></div><div class="item-price">₹149</div></div>
+        <div class="menu-item"><div><div class="item-name">Matilda</div></div><div class="item-price">₹139</div></div>
+        <div class="menu-item"><div><div class="item-name">London Strawberry</div></div><div class="item-price">₹129</div></div>
+        <div class="menu-item"><div><div class="item-name">Swiss Choco Symphony</div></div><div class="item-price">₹139</div></div>
+        <div class="menu-item"><div><div class="item-name">Hot Chocolate Fudge</div></div><div class="item-price">₹129</div></div>
+        <div class="menu-item"><div><div class="item-name">Hot Brownie Fudge</div></div><div class="item-price">₹139</div></div>
+        <div class="menu-item"><div><div class="item-name">Death By Chocolate</div></div><div class="item-price">₹159</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Turkish & Italian Desserts</div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Cheese Classic Kunafa</div></div><div class="item-price">₹159</div></div>
+        <div class="menu-item"><div><div class="item-name">Triple Chocolate Kunafa</div></div><div class="item-price">₹189</div></div>
+        <div class="menu-item"><div><div class="item-name">Nutella Kunafa</div></div><div class="item-price">₹199</div></div>
+        <div class="menu-item"><div><div class="item-name">Jamoon Kunafa</div></div><div class="item-price">₹189</div></div>
+        <div class="menu-item"><div><div class="item-name">Kunafa with Ice Cream</div></div><div class="item-price">₹219</div></div>
+        <div class="menu-item"><div><div class="item-name">Classic Kunafa Roll</div></div><div class="item-price">₹149</div></div>
+        <div class="menu-item"><div><div class="item-name">Triple Chocolate Kunafa Roll</div></div><div class="item-price">₹199</div></div>
+        <div class="menu-item"><div><div class="item-name">Nutella Kunafa Roll</div></div><div class="item-price">₹229</div></div>
+        <div class="menu-item"><div><div class="item-name">Tiramisu</div></div><div class="item-price">₹159</div></div>
+        <div class="menu-item"><div><div class="item-name">Brownie Misu</div></div><div class="item-price">₹169</div></div>
+        <div class="menu-item"><div><div class="item-name">Apricot Delight</div></div><div class="item-price">₹99</div></div>
+        <div class="menu-item"><div><div class="item-name">Gulab Jamun with Ice Cream</div></div><div class="item-price">₹89</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-category-title">Seasonal Delights</div>
+      <div class="menu-grid">
+        <div class="menu-item"><div><div class="item-name">Mango Delight</div></div><div class="item-price">₹149</div></div>
+        <div class="menu-item"><div><div class="item-name">Jackfruit Delight</div></div><div class="item-price">₹179</div></div>
+        <div class="menu-item"><div><div class="item-name">Strawberry Delight</div></div><div class="item-price">₹199</div></div>
+        <div class="menu-item"><div><div class="item-name">Sitaphal Delight</div></div><div class="item-price">₹179</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Find Us</div>
+  <div class="section-title">Visit <em>Vasavi Annapurna</em></div>
+  <div class="contact-grid">
+    <div class="contact-card fade-in">
+      <h3>Contact & Location</h3>
+      <div class="contact-row">
+        <div class="contact-icon">📍</div>
+        <div class="contact-detail">
+          <div class="lbl">Address</div>
+          <div class="val">Vasavi Bhavan, Rajampet,<br>Andhra Pradesh – 516115</div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">📞</div>
+        <div class="contact-detail">
+          <div class="lbl">Phone</div>
+          <div class="val"><a href="tel:9059251275" style="color:inherit;text-decoration:none;">+91 90592 51275</a></div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">👤</div>
+        <div class="contact-detail">
+          <div class="lbl">Managing Director</div>
+          <div class="val">Likhit Narasimha Ch</div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-card fade-in">
+      <h3>Hours of Operation</h3>
+      <div class="hours-row"><span class="day">Monday – Friday</span><span class="time">7:00 AM – 10:30 PM</span></div>
+      <div class="hours-row"><span class="day">Saturday</span><span class="time">7:00 AM – 11:00 PM</span></div>
+      <div class="hours-row"><span class="day">Sunday</span><span class="time">8:00 AM – 10:30 PM</span></div>
+      <div class="hours-row"><span class="day">Public Holidays</span><span class="time">8:00 AM – 10:00 PM</span></div>
+      <br>
+      <div style="background:rgba(201,146,42,0.1); border:1px solid rgba(201,146,42,0.25); border-radius:2px; padding:14px 16px;">
+        <div style="color:var(--gold-light); font-size:0.75rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px;">Reservations</div>
+        <div style="color:rgba(255,255,255,0.65); font-size:0.85rem; line-height:1.6;">Call us to book a table for family gatherings, functions, and group dining.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div style="font-family:'Playfair Display',serif; font-size:1.1rem; color:rgba(255,255,255,0.5); margin-bottom:8px;">Vasavi Annapurna</div>
+  <div>Vasavi Bhavan, Rajampet, Andhra Pradesh – 516115 &nbsp;|&nbsp; <span>+91 90592 51275</span></div>
+  <div style="margin-top:8px;">&copy; 2025 Vasavi Annapurna. All Rights Reserved. &nbsp;&nbsp; Crafted with <span>♥</span></div>
+</footer>
+
+<script>
+function toggleNav() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+function switchTab(name) {
+  document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+// Fade-in on scroll
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
